@@ -1,0 +1,32 @@
+@import "../../../assets/variables.module.scss";
+
+.zol-single-select{
+    display: block;
+    width: 100%;
+    outline: none;
+    background-color: #fff;
+    margin: 10px 0px 5px 0px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea.zol-single-input {
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.zol-single-radio{
+    label{
+        display: block;
+        font-weight: 300;
+        padding: 5px 0px;
+
+        > input{
+            border: 1px solid $color-blue;
+        }
+
+        >span{
+            padding-left: 5px;
+        }
+    }
+}

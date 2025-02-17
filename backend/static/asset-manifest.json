@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "./static/css/main.cd37b0fe.css",
+    "main.js": "./static/js/main.8b0d9f6a.js",
+    "static/media/ilo-logo-with-separator.svg": "./static/media/ilo-logo-with-separator.a5797225124bac7b53e6.svg",
+    "static/media/ilo_logo.svg": "./static/media/ilo_logo.b1a5c40e2d27c6f88112.svg",
+    "static/media/chat-person.svg": "./static/media/chat-person.7ba7dcbb999f0299251a5432182cf4df.svg",
+    "static/media/chat-bot.svg": "./static/media/chat-bot.c5a598c4af338ff19d7c28f93cc38005.svg",
+    "static/media/footer-bg.svg": "./static/media/footer-bg.b2b6165ce062c1aecd22.svg",
+    "static/media/twitter.svg": "./static/media/twitter.f23a3d2fa29f45734e63211dbdba03b3.svg",
+    "index.html": "./index.html",
+    "static/media/envelope-regular.svg": "./static/media/envelope-regular.15b007cf496d9871cfc2bf5f1b50cb2d.svg",
+    "static/media/facebook.svg": "./static/media/facebook.154d8a02e9588d34d247af6a584b8e28.svg",
+    "static/media/paper-plane-outline.svg": "./static/media/paper-plane-outline.69946bbf1a246ee5286a.svg",
+    "static/media/close-outline.svg": "./static/media/close-outline.2f83c18665dd37251d56.svg",
+    "main.cd37b0fe.css.map": "./static/css/main.cd37b0fe.css.map",
+    "main.8b0d9f6a.js.map": "./static/js/main.8b0d9f6a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cd37b0fe.css",
+    "static/js/main.8b0d9f6a.js"
+  ]
+}

@@ -1,0 +1,10 @@
+.zol-sticky-element-parent{
+    position: relative;
+    /* Note that this only works if the element starts at top 0px. I think its a fair limitation that sticky-
+       element requires to go from top to button in the parent container */
+    height: 100%; 
+
+    .zol-sticky-element{
+        position: relative;
+    }
+}

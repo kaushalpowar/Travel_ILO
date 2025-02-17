@@ -1,0 +1,23 @@
+@import "./assets/variables.module.scss";
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: Helvetica, Arial, Verdana, sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: white;
+    color: $color-black;
+}
+
+body, input, button {
+    font-size: 16px;
+}
+
+.main > div.content-row{
+    margin: 50px auto 100px;
+    padding: 0px 20px;
+}

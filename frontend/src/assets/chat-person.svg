@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="161" height="161" viewBox="0 0 161 161">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_108" data-name="Rectangle 108" width="143.858" height="161" fill="none" stroke="#230050" stroke-width="7"/>
+    </clipPath>
+    <clipPath id="clip-chat-person">
+      <rect width="161" height="161"/>
+    </clipPath>
+  </defs>
+  <g id="chat-person" clip-path="url(#clip-chat-person)">
+    <g id="Group_106" data-name="Group 106" transform="translate(29 15.563)">
+      <g id="Group_75" data-name="Group 75" transform="translate(-26 -18)" clip-path="url(#clip-path)">
+        <path id="Path_98" data-name="Path 98" d="M99.272,66.455c-6.672,12.668-10.42,22.309-8.4,34.461l3.685,22.212a5.933,5.933,0,0,1-5.932,5.842H51.353a5.933,5.933,0,0,1-5.933-5.933V115.18a5.145,5.145,0,0,0-5.807-5.1l-8.182,1.061a13.822,13.822,0,0,1-15.6-13.707V86.262c0-3.034.572-5.195-2.865-5.619L9.5,80.2A6.987,6.987,0,0,1,3.287,70.011L9.526,57.824a15.479,15.479,0,0,0,.622-12.794A4.892,4.892,0,0,1,9.7,43.282C10.97,17.468,34.534,1.524,60.891,2.546A46.961,46.961,0,0,1,71.485,4.177q.8.175,1.589.378c20.8,5.367,33.591,26.254,29.97,47.428C102.076,57.642,100.78,63.591,99.272,66.455Z" transform="translate(22.484 15.219)" fill="none" stroke="#230050" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
+      </g>
+    </g>
+  </g>
+</svg>

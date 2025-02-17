@@ -1,0 +1,144 @@
+@import '../../assets/variables.module.scss';
+
+.ilo-footer{
+    background: $color-darkblue url('../../assets/images/footer-bg.svg') top right no-repeat;
+    background-size: contain;
+    border-bottom: 4px solid $color-red;
+    color: white;
+    padding: 0 20px 40px 20px;
+    // giving the visual appeal that the footer continues to the bottom of the page
+    box-shadow: 0 50vh 0 50vh $color-off-white;
+
+    @media screen and (max-width: 600px){
+        padding: 0px 10px 40px 10px;
+        font-size: 90%;
+    }
+
+    a{
+        color: white;
+        text-decoration: none;
+    }
+
+    .ilo-footer-inner{
+        max-width: 1200px;
+        margin: 0 auto;
+        &:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+    }
+
+    .ilo-footer-top{
+        padding: 20px 0px;
+        margin-bottom: 30px;
+        border-bottom: 1px solid white;
+        &:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .ilo-footer-contact{
+            float: left;
+            @media screen and (max-width: 600px){
+                float: none;
+            }
+        }
+
+        .ilo-footer-links{
+            float: right;
+            a, span{
+                display: inline-block;
+                margin-left: 65px
+            }
+            @media screen and (max-width: 600px){
+                float: none;
+                display: block;
+
+                a{
+                    margin: 10px 10px 0px 0px;
+                }
+            }
+        }
+    }
+
+    .ilo-footer-logo-line{
+        position: relative;
+    }
+
+    .ilo-footer-logo{
+        float: left;
+
+        @media screen and (max-width: 600px){
+            float: none;
+        }
+
+        a{
+            margin: 0;
+            border: none;
+            text-indent: -200px;
+            overflow: hidden;
+            display: block;
+            height: 80px;
+            width: 250px;
+            background: transparent url("../../assets/images/ilo_logo.svg") no-repeat 0 0;
+            background-size: contain;
+
+            @media screen and (max-width: 600px){
+                height: 60px;
+                width: 113px;
+            }
+        }
+    }
+
+    .ilo-footer-share{
+        float: right;
+
+        a{
+            margin-left: 20px;
+            font-size: 24px;
+
+            > svg{
+                fill: white;
+                display: inline;
+                width: 20px;
+            }
+        }
+
+        @media screen and (max-width: 600px){
+            margin-top: 20px;
+        }
+    }
+
+    .ilo-quote{
+        top: 15px;
+    }
+
+
+    .zol-footer-disclaimer-link{
+        cursor: pointer;
+    }
+
+    .ilo-footer-disclaimer-container{
+        padding-top: 10px;
+
+        > div{
+            float: left;
+            width: calc(100% - 150px);
+        }
+        > span {
+            float: right;
+        }
+
+        @media screen and (max-width: 600px){
+            margin-top: 20px;
+            > div{
+                float: none;
+                clear: right;
+                width: 100%;
+            }
+        }
+    }
+
+}

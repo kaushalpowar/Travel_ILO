@@ -1,0 +1,27 @@
+.zol-loader-default{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    min-height: 100px;
+    background-color: rgba(255,255,255,0.2);
+}
+.zol-loader-default > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -40px;
+    margin-left: -40px;
+    border: 12px solid rgba(0,0,0,0.2); /* Full circle */
+    border-top: 12px solid #646464; /* Small segment */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

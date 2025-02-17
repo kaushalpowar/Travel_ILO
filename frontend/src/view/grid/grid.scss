@@ -1,0 +1,17 @@
+@import './grid.module.scss';
+
+.zol-grid-row{
+    margin: 0px calc(#{$column-spacing}px / -2);
+
+    .zol-grid-col{
+        display: inline-block;
+        vertical-align: top;
+        margin: 0px calc(#{$column-spacing}px / 2);
+    }
+}
+
+@media (max-width: 600px){
+    .zol-grid-row .zol-grid-col{
+        min-width: calc(100% - #{$column-spacing}px);
+    }
+}

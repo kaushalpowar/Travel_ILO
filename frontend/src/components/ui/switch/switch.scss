@@ -1,0 +1,53 @@
+@import '../../../assets/variables.module.scss';
+
+.zol-ui-switch{
+    position: relative;
+    display: inline-block;
+    background-color: $color-medium;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .zol-ui-switch-highlight{
+        position: absolute;
+        z-index: 1;
+        background-color: $color-primary;
+        top: 0;
+        bottom: 0;
+        left: 0%; // this value is updated by the component
+        width: 100%; // this value is updated by the component
+        transition: left 0.3s;
+    }
+
+    .zol-ui-switch-item{
+        position: relative;
+        z-index: 2;
+        display: inline-block;
+        box-sizing: border-box;
+        min-width: 20px; // this value is updated by the component
+        padding: 10px 20px;
+        text-align: center;
+        color: $color-white;
+        cursor: pointer;
+        transition: color 0.3s;
+
+        &.zol-active{
+            color: $color-black;
+            cursor: default;
+        }
+
+        &:focus::before{
+            // because part of the button will be but off by the border-radius of the parent, we create an
+            // outline inside the button around the text.
+            content: '';
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            left: 20px;
+            right: 20px;
+            border: 1px solid $color-black;
+        }
+        &.zol-active:focus::before{
+            border: 1px solid $color-white;
+        }
+    }
+}

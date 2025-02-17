@@ -1,0 +1,114 @@
+@import '../../assets/variables.module.scss';
+
+
+.zol-chat-bot-message{
+    max-width: 820px;
+
+    > div{
+        margin: 0px 200px 30px 150px;
+        background-color: $color-off-white;
+        padding: 30px;
+        border-radius: 14px 14px 14px 0px;
+        line-height: 1.5em;
+        position: relative;
+
+        &:after{
+            left: -30px;
+            top: 100%;
+            border: solid transparent;
+            content: "";
+            height: 0;
+            width: 0;
+            position: absolute;
+            border-color: rgba(0, 0, 0, 0);
+            border-bottom-color: $color-off-white;
+            border-width: 30px;
+            margin-top: -60px;
+            transform: scale(0.8, 1);
+        }
+    }
+
+    .zol-chat-bot-user{
+        float: left;
+
+        > svg{
+            width: 120px;
+        }
+    }
+
+    &.zol-chat-bot-message-right{
+        > div {
+            background-color: $color-light;
+            margin: 0px 150px 30px 200px;
+            border-radius: 14px 14px 0px 14px;
+
+            &:after{
+                right: -30px;
+                left: auto;
+                border-color: rgba(0, 0, 0, 0);
+                border-bottom-color: $color-light;
+            }
+        }
+
+        .zol-chat-bot-user{
+            float: right;
+        }
+    }
+}
+
+.zol-chat-bot-feedback{
+    max-width: 670px;
+    margin-left: 150px;
+
+    > p {
+        font-size: 120%;;
+        margin-top: 30px;
+    }
+
+    .zol-chat-bot-input{
+        height: 30px;
+        width: calc(100% - 20px);
+        border: 1px solid $color-medium;
+        border-radius: 14px;
+        padding: 10px;
+        outline: none;
+    }
+
+    .zol-chat-bot-form {
+        position: relative;
+        margin-bottom: 20px;
+    
+        input[type=submit]{
+            background: $color-light url('../../assets/icons/paper-plane-outline.svg') center center no-repeat;
+            background-size: 30px;
+            text-indent: 50px;
+            overflow: hidden;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            border-radius: 50%;
+            border: 0;
+            cursor: pointer;
+        }
+    }
+
+    > a{
+        color: $color-primary;
+        text-decoration: none;
+        
+        .zol-icon-clear{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: $color-red url('../../assets/icons/close-outline.svg') center center no-repeat;
+            background-size: 25px;
+            vertical-align: middle;
+            margin-right: 15px;
+            border-radius: 50%;
+            text-indent: 50px;
+            overflow: hidden;
+        }
+    }
+}

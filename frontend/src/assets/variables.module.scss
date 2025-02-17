@@ -1,0 +1,45 @@
+/* Global project variables file. Here we can define some general variables */
+
+$grid-col-count: 12;
+$spacer: 16;
+
+$color-white: #fff;
+$color-off-white: #f7f7f7;
+$color-light: #c0c3c9;
+$color-mediumlight: #dbdbdb;
+$color-medium: #818793;
+$color-dark: #2e384d;
+$color-black: #000000;
+
+$color-primary: #1e2dbe;
+$color-darkprimary: #230050;
+$color-blue: #1e2dbe;
+$color-darkblue: #230050;
+$color-red: #fa3c4b;
+$color-purple: #960a55;
+$color-yellow: #ffcd2d;
+$color-green: #8ce164;
+$color-turquoise: #05d2d2;
+$color-graylight: #f2f2f2;
+$color-iloGray: #ebf5fd;
+$color-mainDarkBlue:#151F85;
+
+:export {
+  colorWhite: $color-white;
+  colorOffWhite: $color-off-white;
+  colorLight: $color-light;
+  colorMediumLight: $color-mediumlight;
+  colorMedium: $color-medium;
+  colorDark: $color-dark;
+  colorPrimary: $color-primary;
+  colorDarkPrimary: $color-darkprimary;
+  colorBlue: $color-blue;
+  colorDarkBlue: $color-darkblue;
+  colorRed: $color-red;
+  colorPurple: $color-purple;
+  colorYellow: $color-yellow;
+  colorGreen: $color-green;
+  colorTurquoise: $color-turquoise;
+  colorGraylight: $color-graylight;
+  colorIloGray: $color-iloGray;
+}
