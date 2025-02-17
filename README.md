@@ -49,6 +49,12 @@ Following images show the flow of the application:
 ![alt text](travel_un.png)
 
 
+Following images show the UI of the application:
+
+![alt text](Screenshot.png)
+
+
+
 
 
 
