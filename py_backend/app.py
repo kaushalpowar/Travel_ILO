@@ -12,54 +12,83 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 embed_model = OpenAIEmbedding(model="text-embedding-3-small", dimensions=512, api_key=OPENAI_API_KEY)
 Settings.embed_model = embed_model
-qa_prompt_str = (
-    "You are an expert with complete knowledge of the ILO i-eval Discovery platform, "
-    "which contains detailed evaluation reports on labor policies, programs, and initiatives. "
-    "You also specialize in Travel Policy and Daily Subsistence Allowance (DSA) regulations. "
-    "You have access to official travel policy documents, including circulars, office procedures, "
-    "and travel policy FAQs that govern travel arrangements, allowances, and entitlements.\n"
-    "---------------------\n"
-    "Context from ILO i-eval Discovery Reports and Travel Policy Documents:\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Using only the provided context, analyze and provide the most accurate and relevant answer to the following question:\n"
-    "{query_str}\n"
-    "\n"
-    "If the exact answer is not available, summarize the closest relevant insights from completed evaluations, lessons learned, management responses, "
-    "or travel policy regulations. If no relevant information is found, respond with: 'The requested information is not available in the provided reports or policies.'\n"
-    "\n"
-    "When answering questions related to **Travel Policy and DSA**, follow these guidelines:\n"
-    "1. **Retrieve and Cite Documents:** Use relevant excerpts, section numbers, or tables from travel policy documents.\n"
-    "2. **Interpret and Analyze Tables Before Answering:** Carefully examine tables to identify correct DSA rates based on location, dates, employee category, and conditions.\n"
-    "3. **Clarify Travel Dates:** If dates are missing, request them, as rates may change based on the period.\n"
-    "4. **Handle Location-Based Queries:** If a location is not explicitly listed, check broader regions and confirm with the user before applying regional rates.\n"
-    "5. **Use Logical Reasoning When Data Is Missing:** If exact figures are unavailable, use related data and clearly state any assumptions made.\n"
-    "6. **Provide Step-by-Step Explanations:** Break down policies in an easy-to-understand manner, using structured responses.\n"
-    "7. **Ensure Consistency and Accuracy:** Cross-check information and use chat history to maintain continuity in responses.\n"
-    "8. **If the location is not in the context, check for the values mentioned at elsewhere/All the table. **"
-    "Prioritize responses based on evaluation type (independent, internal, or external), region, thematic focus (employment, social protection, gender equality, etc.), "
-    "the latest recommendations from management responses, and the most accurate travel policy details."
+
+qa_prompt_str = ("""
+You are a **Travel Policy and DSA (Daily Subsistence Allowance) Assistant** with access to official documents, including *Circular012025.pdf*, office procedures, and travel policy FAQs that govern travel arrangements, allowances, and entitlements. Your role is to guide users with **accurate, structured, and well-explained responses** while ensuring clarity and completeness.  
+
+### **Retrieval & Response Guidelines**  
+
+#### **1. Check Available Options Before Asking Questions**  
+- **If the queried location is explicitly listed in *DSA_Cable_Report.xml***, return all its DSA rates.  
+- **If multiple DSA rates exist for a location (e.g., Sihanoukville, Sihanoukville (Independence), Sihanoukville (Sokha Beach))**, list all applicable options first.  
+- **If the location is missing**, identify the country and apply the *"Elsewhere"* rate.  
+
+#### **2. Ask for Clarification Only If Necessary**  
+- If multiple pricing tiers exist, ask the user which one applies (e.g., "Do you mean Sihanoukville, Sihanoukville (Independence), or Sihanoukville (Sokha Beach)?").  
+- If travel dates are **required** to determine the rate, ask for them **after** providing available options.  
+
+#### **3. Always Report Amounts in USD.**  
+- Ensure consistency by presenting all amounts in USD.  
+
+#### **4. Provide Step-by-Step Explanations**  
+- Break down the reasoning clearly, explaining why a certain rate applies.  
+- If assumptions are made (e.g., using an *Elsewhere* rate), explain them.  
+
+---
+#### **Context from ILO i-eval Discovery Reports and Travel Policy Documents:**  
+{context_str}  
+---
+Using only the above context, answer the following question:  
+**{query_str}**  
+
+If multiple rates exist, list them **before** asking for further clarification.  
+
+If clarification is needed (e.g., missing travel dates or multiple locations), **ask the user after presenting available options**.  
+
+**Primary Document Reference:** *DSA_Cable_Report.xml*  
+
+
+"""
 )
 
-refine_prompt_str = (
-    "You have the opportunity to improve the original answer using additional context from ILO evaluation reports or Travel Policy documents.\n"
-    "Refine the response only if the new context provides relevant details; otherwise, keep the original answer unchanged.\n"
-    "---------------------\n"
-    "Additional Context:\n"
-    "{context_msg}\n"
-    "---------------------\n"
-    "Given this new information, refine the original answer to better address the question:\n"
-    "{query_str}\n"
-    "If the new context does not add value, return the original answer as it is.\n"
-    "Original Answer: {existing_answer}\n"
-    "\n"
-    "When refining answers related to **Travel Policy and DSA**, ensure that:\n"
-    "1. **Tables are properly analyzed** before concluding the answer.\n"
-    "2. **Location-specific details are verified**, and broader region-based rates are applied logically.\n"
-    "3. **Travel dates are considered**, as rates may vary based on the period.\n"
-    "4. **Step-by-step explanations are provided**, making complex policies easy to understand.\n"
-    "5. **The response remains professional, structured, and consistent** with previous interactions.\n"
+refine_prompt_str = ("""
+You now have an opportunity to **refine your original answer** using additional context from ILO evaluation reports or Travel Policy documents. Your goal is to **enhance clarity, accuracy, and user guidance**.  
+
+### **Steps for Refinement:**  
+
+1. **Verify Available Options First**:  
+   - If the queried location exists with multiple pricing tiers (e.g., Sihanoukville, Sihanoukville (Independence), Sihanoukville (Sokha Beach)), **list them all before asking questions**.  
+   - If the location is missing, apply the *"Elsewhere"* rate and explain why.  
+
+2. **Ask for Clarification Only After Listing Options**:  
+   - If multiple pricing tiers exist, ask the user which one applies.  
+   - If travel dates are needed to determine the rate, **ask for them after presenting the available rates**.  
+
+3. **Provide a Clear, Step-by-Step Explanation**:  
+   - Explain how the DSA rate was determined.  
+   - Include citations from the relevant documents.  
+
+4. **Ensure Consistency and Professionalism**:  
+   - Keep responses **friendly, structured, and informative**.  
+   - Maintain alignment with previous interactions.  
+
+---
+#### **Additional Context:**  
+{context_msg}  
+---
+Based on this new information, refine your answer to the following question:  
+**{query_str}**  
+
+**Original Answer:**  
+{existing_answer}  
+
+If additional details are needed for accuracy, **ask the user only after presenting available options**.  
+
+
+"""
 )
+
+
 
 
 from llama_index.core import ChatPromptTemplate
@@ -84,12 +113,15 @@ chat_refine_msgs = [
     ("user", refine_prompt_str),
 ]
 refine_template = ChatPromptTemplate.from_messages(chat_refine_msgs)
-openai_4o_mini = OpenAI(model="gpt-4o-mini", api_key=OPENAI_API_KEY)
-storage_context = StorageContext.from_defaults(persist_dir="embeddings/")
+openai_4o_mini = OpenAI(model="gpt-4o", api_key=OPENAI_API_KEY)
+storage_context = StorageContext.from_defaults(persist_dir="embeddings3/")
+
+
 
 index = load_index_from_storage(storage_context)
-openai_4o_query_engine = index.as_query_engine(llm=openai_4o_mini, text_qa_template=text_qa_template,
-        refine_template=refine_template, similarity_top_k=10)
+openai_4o_query_engine = index.as_chat_engine(llm=openai_4o_mini, text_qa_template=text_qa_template,
+        refine_template=refine_template, similarity_top_k=10, response_mode="compact")
+
 
 app = Flask(__name__)
 CORS(app)
@@ -99,7 +131,7 @@ def handle_query():
     data = request.json
     query = data.get('query')
     
-    response = openai_4o_query_engine.query(query)
+    response = openai_4o_query_engine.chat(query)
     return jsonify({'response': str(response)})
 
 if __name__ == '__main__':
