@@ -2,11 +2,15 @@ from llama_index.core import Settings, SimpleDirectoryReader, VectorStoreIndex, 
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import Settings, StorageContext, get_response_synthesizer, load_index_from_storage
 import openai
-import os
 from llama_index.llms.openai import OpenAI
 from utils import print_response
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from llama_index.core.storage.chat_store import SimpleChatStore
+from llama_index.core.memory import ChatMemoryBuffer
+from llama_index.core import ChatPromptTemplate
+
+
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
@@ -157,11 +161,6 @@ If additional details are needed for accuracy, **ask the user only after present
 """
 )
 
-
-
-
-from llama_index.core import ChatPromptTemplate
-
 # Text QA Prompt
 chat_text_qa_msgs = [
     (
@@ -182,14 +181,19 @@ chat_refine_msgs = [
     ("user", refine_prompt_str),
 ]
 refine_template = ChatPromptTemplate.from_messages(chat_refine_msgs)
-openai_4o_mini = OpenAI(model="gpt-4o", api_key=OPENAI_API_KEY)
+openai_4o = OpenAI(model="gpt-4o", api_key=OPENAI_API_KEY)
 storage_context = StorageContext.from_defaults(persist_dir="embeddings3/")
+chat_store = SimpleChatStore()
 
-
+chat_memory = ChatMemoryBuffer.from_defaults(
+    token_limit=4000,
+    chat_store=chat_store,
+    chat_store_key="user1",
+)
 
 index = load_index_from_storage(storage_context)
-openai_4o_query_engine = index.as_chat_engine(llm=openai_4o_mini, text_qa_template=text_qa_template,
-        refine_template=refine_template, similarity_top_k=10, response_mode="compact")
+openai_4o_query_engine = index.as_chat_engine(llm=openai_4o, text_qa_template=text_qa_template,refine_template=refine_template, similarity_top_k=10, memory=chat_memory)
+
 
 
 app = Flask(__name__)
@@ -201,7 +205,9 @@ def handle_query():
     query = data.get('query')
     
     response = openai_4o_query_engine.chat(query)
-    return jsonify({'response': str(response)})
+    source = print_response(response)
+    #response_with_source = f"{response} + str(source)"
+    return jsonify({'response': f"{response} \n {str(source)}"})
 
 if __name__ == '__main__':
     app.run(debug=True)
