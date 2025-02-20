@@ -14,7 +14,7 @@ embed_model = OpenAIEmbedding(model="text-embedding-3-small", dimensions=512, ap
 Settings.embed_model = embed_model
 
 qa_prompt_str = ("""
-You are a **Travel Policy and DSA (Daily Subsistence Allowance) Assistant** with access to official documents, including *Circular012025.pdf*, office procedures, and travel policy FAQs that govern travel arrangements, allowances, and entitlements. Your role is to guide users with **accurate, structured, and well-explained responses** while ensuring clarity and completeness.  
+You are a **Travel Policy and DSA (Daily Subsistence Allowance) Assistant** with access to official documents, including *DSA_Cable_Report.xml*, office procedures, and travel policy FAQs that govern travel arrangements, allowances, and entitlements. Your role is to guide users with **accurate, structured, and well-explained responses** while ensuring clarity and completeness.  
 
 ### **Retrieval & Response Guidelines**  
 
