@@ -3,3 +3,8 @@ llama-index
 openai
 flask
 flask-cors
+llama-index-llms-huggingface
+llama-index-llms-huggingface-api
+llama-index-llms-anthropic
+llama-index-embeddings-huggingface
+llama-index-embeddings-instructor
