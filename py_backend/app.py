@@ -8,14 +8,32 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from llama_index.core.storage.chat_store import SimpleChatStore
 from llama_index.core.memory import ChatMemoryBuffer
-from llama_index.core import ChatPromptTemplate
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
 
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
-embed_model = OpenAIEmbedding(model="text-embedding-3-small", dimensions=512, api_key=OPENAI_API_KEY)
+#openai.api_key = OPENAI_API_KEY
+# embed_model = OpenAIEmbedding(model="text-embedding-3-small", dimensions=512, api_key=OPENAI_API_KEY)
+# Settings.embed_model = embed_model
+embed_model = HuggingFaceEmbedding(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        )
 Settings.embed_model = embed_model
+import os
+
+#os.environ["ANTHROPIC_API_KEY"] = "YOUR ANTHROPIC API KEY"
+
+from llama_index.llms.anthropic import Anthropic
+
+# To customize your API key, do this
+# otherwise it will lookup ANTHROPIC_API_KEY from your env variable
+# llm = Anthropic(api_key="")
+from llama_index.llms.anthropic import Anthropic
+from llama_index.core import Settings
+
+tokenizer = Anthropic().tokenizer
+Settings.tokenizer = tokenizer
+llm = Anthropic(model="claude-3-5-sonnet-20241022", api_key=ANTHROPIC_API_KEY)
+
 
 qa_prompt_str = ("""
 You are a **Travel Policy and DSA (Daily Subsistence Allowance) Assistant** with access to official documents—including the single Excel file for all countries along with the DSA notes Excel file, office procedures, and travel policy FAQs—that govern travel arrangements, allowances, and entitlements. Your role is to guide users with **accurate, structured, and well-explained responses** based solely on the provided context. **Do not provide generic advice or instruct the user to refer to external documents.** Use the available context to answer every query.
@@ -79,6 +97,7 @@ Once travel dates are provided:
 ---
 
 ### **Output Format**
+Alwayas write response in markdown format.
 Location Queried: [User’s Input] 
 Country Identified: [Country Name] 
 DSA Rate(s) Found: [List of applicable rates] 
@@ -165,6 +184,11 @@ If additional details are needed for accuracy, **ask the user only after present
 """
 )
 
+
+
+
+from llama_index.core import ChatPromptTemplate
+
 # Text QA Prompt
 chat_text_qa_msgs = [
     (
@@ -185,8 +209,8 @@ chat_refine_msgs = [
     ("user", refine_prompt_str),
 ]
 refine_template = ChatPromptTemplate.from_messages(chat_refine_msgs)
-openai_4o = OpenAI(model="gpt-4o", api_key=OPENAI_API_KEY)
-storage_context = StorageContext.from_defaults(persist_dir="embeddings5/")
+#openai_4o = OpenAI(model="gpt-4o", api_key=OPENAI_API_KEY,)
+storage_context = StorageContext.from_defaults(persist_dir="embeddings6/")
 chat_store = SimpleChatStore()
 
 chat_memory = ChatMemoryBuffer.from_defaults(
@@ -195,10 +219,24 @@ chat_memory = ChatMemoryBuffer.from_defaults(
     chat_store_key="user1",
 )
 
+
 index = load_index_from_storage(storage_context)
-openai_4o_query_engine = index.as_chat_engine(llm=openai_4o, text_qa_template=text_qa_template,refine_template=refine_template, similarity_top_k=10, memory=chat_memory)
+# openai_4o_query_engine = index.as_chat_engine(llm=openai_4o, text_qa_template=text_qa_template,
+#         refine_template=refine_template, similarity_top_k=10, memory=chat_memory)
+print("index loaded")
+llm = Anthropic(model="claude-3-5-sonnet-20241022", api_key=ANTHROPIC_API_KEY)
 
+sonnet_3_5_query_engine = index.as_chat_engine(llm=llm, text_qa_template=text_qa_template,
+        refine_template=refine_template, similarity_top_k=10, memory=chat_memory)
+#response = openai_4o_query_engine.query("I am travelling to India, delhi, how much DSA will i get?")
+#response = openai_4o_query_engine.query("I am travelling to India, Kolhapur, how much DSA will i get?")
+#response = openai_4o_query_engine.chat("what are the travel documents required to travel to different countries")
 
+#print(response)
+#print("=========")
+#file_names = [node.metadata.get("file_name") for node in response.source_nodes if "file_name" in node.metadata]
+#print(file_names)
+#print_response(response)
 
 app = Flask(__name__)
 CORS(app)
@@ -208,7 +246,8 @@ def handle_query():
     data = request.json
     query = data.get('query')
     
-    response = openai_4o_query_engine.chat(query)
+    #response = openai_4o_query_engine.chat(query)
+    response = sonnet_3_5_query_engine.chat(query)
     source = print_response(response)
     #response_with_source = f"{response} + str(source)"
     return jsonify({'response': f"{response} \n {str(source)}"})
